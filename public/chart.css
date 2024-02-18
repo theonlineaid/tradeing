@@ -1,0 +1,10 @@
+.area-chart-list-option{
+  display: flex;
+}
+.area-chart-list-option li{
+  font-size: 14px;
+  margin: 0 8px;
+  font-weight: 600;
+  color: #FF0000;
+  color: #6BA583
+}

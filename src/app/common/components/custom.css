@@ -1,0 +1,9 @@
+.modal-xl {
+    width: 110% !important;
+    height: 600px !important;
+}
+
+.modal-md {
+    width: 100% !important;
+    height: auto !important;
+}

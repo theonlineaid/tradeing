@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: red;
+}
+
+@layer components {
+  .index-label-text {
+    @apply tw-font-bold tw-text-sm lg:tw-text-base 2xl:tw-text-lg dark:tw-text-gray-300;
+  }
+}

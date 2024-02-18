@@ -1,0 +1,38 @@
+[
+  {
+    "board_meeting" : 3,
+      "dividend" : 1,
+      "spot" : 1,
+      "record_date" : 1,
+      "agm" : 1,
+      "right_subscription" : 1,
+      "quarterly_earnings" : 2
+  },
+  {
+    "board_meeting" : 3,
+      "dividend" : 10,
+      "spot" : 1,
+      "record_date" : 1,
+      "agm" : 10,
+      "right_subscription" : 1,
+      "quarterly_earnings" : 2
+  },
+  {
+    "board_meeting" : 38,
+    "dividend" : 1,
+    "spot" : 1,
+    "record_date" : 1,
+    "agm" : 1,
+    "right_subscription" : 11,
+    "quarterly_earnings" : 2
+  }, 
+  {
+    "board_meeting" : 3,
+      "dividend" : 1,
+      "spot" : 11,
+      "record_date" : 1,
+      "agm" : 1,
+      "right_subscription" : 11,
+      "quarterly_earnings" : 2
+  }
+]

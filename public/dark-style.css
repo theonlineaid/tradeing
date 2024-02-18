@@ -1,0 +1,66 @@
+/* tailwind dark */
+.tw-dark .ag-row-even {
+  background-color: #222836 !important;
+  color: #f2f2f2 !important;
+}
+.tw-dark .ag-row-odd {
+  background-color: #141C26 !important;
+  color: #f2f2f2 !important;
+}
+.tw-dark .ag-theme-balham .ag-row-hover:not(.ag-full-width-row)::before,
+.ag-theme-balham .ag-row-hover.ag-full-width-row.ag-row-group::before {
+  background-color: #206f9c !important;
+}
+.tw-dark .ag-header-row {
+  background-color: #131b2e;
+}
+.tw-dark .ag-center-cols-clipper {
+  background: #1e303b;
+}
+.tw-dark .ag-theme-balham .ag-root-wrapper {
+  border: 1px solid #131b2e !important;
+}
+.tw-dark .ag-theme-balham .ag-header {
+  border-bottom: 1px solid #2a3753 !important;
+}
+.tw-dark .ag-header-cell-text,
+.tw-dark .ag-header-active .ag-icon.ag-icon-menu {
+  color: #bfbfbf;
+}
+
+.tw-dark .react-grid-item, .tw-dark .form-select{
+  border: 1px solid #1d2d40;
+}
+.tw-dark .btn-close{
+  color: #1d2d40;
+}
+.tw-dark .modal-content{
+ border: 1px solid #3b6d61;
+}
+.tw-dark .nav-tabs .nav-item.show .nav-link, .tw-dark .nav-tabs .nav-link.active {
+  background-color: #293548;
+  border: 1px solid #1d2d40;
+  color: #bfbfbf;
+}
+.tw-dark .nav-tabs .nav-link, .tw-dark .nav-tabs .nav-link:hover{
+  background-color: transparent;
+  border: none;
+  color: #bfbfbf;
+}
+.tw-dark .react-grid-item > .react-resizable-handle::after{
+  border-right: 2px solid rgba(255, 255, 255, 0.4);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+}
+.tw-dark .dropdown-menu{
+  border: 2px solid #3b6d61;
+}
+.tw-dark .controlled-menu ul {
+  background: inherit ;
+  border: 1px solid #3b6d61;
+}
+.tw-dark .controlled-menu ul li {
+  color: #f4f4f4 ;
+}
+.tw-dark .controlled-menu ul li:hover {
+  background: #000 ;
+}

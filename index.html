@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Stock Market" />
+    <!-- SPLASH SCREEN-->
+    <link rel="stylesheet" id="layout-styles-anchor" href="/splash-screen.css" />
+    <title>Benemoy Securities OMS</title>
+    <link rel="shortcut icon" href="/media/logos/favicon.jpg" />
+    <link rel="stylesheet" href="/fonts.css" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/dark-style.css" />
+    <link rel="stylesheet" href="/custom.css" />
+    <link rel="stylesheet" href="/chart.css" />
+    <link rel="stylesheet" href="/assets/css/default-ocean-blue.css" />
+    <link rel="stylesheet" href="/assets/css/minMaxClose.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js" crossorigin></script>
+
+<script
+  src="https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min.js"
+  crossorigin></script>
+
+<script
+  src="https://cdn.jsdelivr.net/npm/react-bootstrap@next/dist/react-bootstrap.min.js"
+  crossorigin></script>
+  </head>
+  <!-- TIP: add dark-mode class to enable dark mode -->
+  <body class="page-loading">
+    <script type="module" src="/src/index.tsx"></script>
+    <div id="root" class="d-flex flex-column flex-root"></div>
+    <div id="splash-screen" class="splash-screen">
+      <span>Loading ...</span>
+    </div>
+    <div id="root-modals"></div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- <script src="assets/js/minMaxClose.min.js"></script> -->
+  </body>
+</html>
