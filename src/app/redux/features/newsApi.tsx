@@ -2,7 +2,7 @@ export const getNewsDataFromSocket = async () => {
   const res = await fetch('https://jsonplaceholder.typicode.com/posts')
   const data = await res.json()
 
-  return data
+  // return data
 
   const itchSocketURL = 'ws://10.238.41.69:8766/ws'
   const ws = new WebSocket(itchSocketURL)

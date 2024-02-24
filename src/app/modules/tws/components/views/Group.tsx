@@ -3,7 +3,7 @@ import useInitTables from '#hooks/use-init-tables'
 import _ from 'lodash'
 import {useEffect, useMemo, useRef, useState} from 'react'
 import SectionHeader from '../section-headers'
-import TradeSettings from './Trade/Settings'
+import TradeSettings from './Trade/TradeSettings01'
 
 const Group = (props: any) => {
   // states
@@ -34,27 +34,10 @@ const Group = (props: any) => {
   const gridRef: any = useRef()
 
   const TabComponent = useMemo(() => {
-    // const t = _.find(props.data, (item) => item.id === selectedTab)
-    // return props.dashboardComponents?.[`${t?.table_type}_${t?.view_type}`]
 
     return props.dashboardComponents?.[props.layout.i]
   }, [props, selectedTab])
 
-  // const TabComponent = useMemo(() => {
-  //   console.log('========', props.data)
-
-  //   return props.dashboardComponents?.[
-  //     _.find(props.data, (item) => item.id === selectedTab)?.tablesetting
-  //   ]
-  // }, [props, selectedTab])
-
-  // const TabComponent = useMemo(() => {
-  //   return (
-  //     props.dashboardComponents?.[
-  //       _.find(props.data, (item) => item.id === selectedTab)?.tablesetting
-  //     ] ?? props.dashboardComponents?.['2']
-  //   )
-  // }, [props, selectedTab])
 
   interface TableDataInterface {
     checkData: any[]
@@ -81,11 +64,12 @@ const Group = (props: any) => {
     setIsModalOpen(!isModalOpen)
   }
 
+  console.log('84', props.data)
+
   return (
     <>
       <SectionHeader
         layout={props?.layout}
-        // data={_.sortBy(props?.data, (item) => item.table_user_order)}
         data={_.filter(props?.data, (itm) => itm.view_type === 'GROUP')}
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
@@ -122,7 +106,6 @@ const Group = (props: any) => {
               <>
                 <SectionHeader
                   layout={props?.layout}
-                  // data={_.sortBy(props?.data, (item) => item.table_user_order)}
                   data={_.filter(props?.data, (itm) => itm.view_type === 'GROUP')}
                   selectedTab={selectedTab}
                   setSelectedTab={setSelectedTab}
@@ -153,25 +136,6 @@ const Group = (props: any) => {
       {TabComponent ? <TabComponent {...tabComponentProps} /> : null}
     </>
   )
-
-  // <div>
-  //   Group
-  //   {data && <pre>{JSON.stringify(data, null, 4)}</pre>}
-  //   {data?.map((item, key) => {
-  //     if (!components?.[item?.tablesetting]) return null
-  //     const DashboardComponent: React.ElementType = components?.[
-  //       item?.tablesetting
-  //     ] as React.ElementType
-
-  //     return (
-  //       <DashboardComponent
-  //         data={item}
-  //         layout={layout}
-  //         handleMinimizeSection={handleMinimizeSection}
-  //       />
-  //     )
-  //   })}
-  // </div>
 }
 
 export default Group

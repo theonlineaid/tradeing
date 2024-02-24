@@ -50,7 +50,7 @@ const atbCategoryType = [
 
 
 
-const TradeSettings = ({ checkData, handleCheckData, tableName }) => {
+const TradeSettings01 = ({ checkData, handleCheckData, tableName }) => {
   const { watchList, settings } = useSelector((state: RootState) => state)
 
   const [activeSettingTab, setActiveSettingTab] = useState<string>('column')
@@ -292,10 +292,6 @@ const TradeSettings = ({ checkData, handleCheckData, tableName }) => {
               <li key={d.id}>{d.headerName}</li>
             ))}
 
-            {/* {checkData &&
-              checkData.map((check) => (
-                <CheckList key={check.field} check={check} handleCheckData={handleCheckData} />
-              ))} */}
           </ul>
         </Tab>
         <Tab eventKey='filter' title='Filter' className='dark:tw-text-slate-400'>
@@ -547,4 +543,4 @@ const TradeSettings = ({ checkData, handleCheckData, tableName }) => {
   )
 }
 
-export default TradeSettings
+export default TradeSettings01

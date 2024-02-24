@@ -25,9 +25,20 @@ export const blotterSlice = createSlice({
     },
     changeMarketDataColor: (state, action: PayloadAction<any>) => {
       state.marketData = action.payload
+      console.log(action.payload)
     },
+
+    // Not exectuation 
     changeMarketDeptColor: (state, action: PayloadAction<any>) => {
-      state.marketDept = action.payload
+      // state.marketDept = action.payload
+      // console.log(action.payload)
+      console.log('Payload received in changeMarketDeptColor:', action.payload);
+      // Assuming action.payload contains the color value, update the state immutably
+      return {
+        ...state,
+        marketDept: action.payload,
+      };
+
     },
     changeMoversGainersColor: (state, action: PayloadAction<any>) => {
       state.moversGainers = action.payload

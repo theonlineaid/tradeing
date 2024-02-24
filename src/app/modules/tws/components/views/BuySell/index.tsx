@@ -6,6 +6,7 @@ import {useCallback, useEffect, useRef, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import BuySellBody from './BuySellBody'
 import BuySellSetting from './buySellSettings'
+import _ from 'lodash'
 
 const BuySell = (props: any) => {
   // state
@@ -14,10 +15,13 @@ const BuySell = (props: any) => {
   const [refetchData, setRefetchData] = useState<boolean>(false)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const {buySell, linkedTable} = useSelector((state: RootState) => state)
+  console.log(linkedTable, '18')
   // Action
   const gridRef: any = useRef()
 
   const dispatch = useDispatch()
+
+
   const handleOpenSetting = () => {
     setIsOpen(true)
   }
@@ -61,11 +65,14 @@ const BuySell = (props: any) => {
     localStorage.setItem('instrument-details-table', nextChecked)
   }
 
+  console.log("64 ", props.data)
+
   return (
     <>
       <SectionHeader
         layout={props?.layout}
         data={props?.data}
+        // data={_.filter(props?.data, (itm) => itm.view_type === "MARKET")}
         openModal={isOpen}
         closeModal={handleCloseSetting}
         handleClick={handleOpenSetting}
@@ -73,12 +80,9 @@ const BuySell = (props: any) => {
         handleLock={handleLock}
         handleViewModal={handleViewModal}
         isSingleSection
-        // title={`Buy - Sell ${selectedInstrument}`}
-        // title={`Buy - Sell`}
         title={props?.tableData?.name ?? 'Buy - Sell'}
         tableData={props?.tableData}
         type={linkedTable?.instrumentName.split('-')[0]}
-        // icon={buySell?.isLock ? <FiLock style={{ display: 'inline' }} /> : <FiUnlock style={{ display: 'inline' }}/>}
         modalBody={
           <BuySellSetting handleInstrumentHideShow={handleInstrumentHideShow} checked={checked} />
         }
@@ -88,8 +92,6 @@ const BuySell = (props: any) => {
         <CustomModal
           handleClose={handleViewModal}
           show={isModalOpen}
-          // title={`Buy - Sell ${selectedInstrument}`}
-          // title={`Buy - Sell`}
           title={props?.tableData?.name ?? 'Buy - Sell'}
           bgColor='bg-light'
           size='lg'
