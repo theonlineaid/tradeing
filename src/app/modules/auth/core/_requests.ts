@@ -17,6 +17,9 @@ const postData = (url: string, data: dataType) => axios.post(url, data)
 const putData = (url: string, id?: number | null, data: dataType = null) =>
   axios.put(id ? `${url}${id}/` : url, data)
 
+const patchData = (url: string, id?: number | null, data: dataType = null) =>
+  axios.patch(id ? `${url}${id}/` : url, data)
+
 const deleteData = (url: string, id?: number | null) => axios.delete(id ? `${url}${id}/` : url)
 
 // prettier-ignore
@@ -103,8 +106,10 @@ const _default = {
   userTableColumnsUpdate: ({id, body}: {id: number, body:dataType}) => putData(`${_v.API_URL_2}/${_v.TABLE_COLUMNS_UPDATE}/` , id, body),
   
   systemAllTableLists   : ()=>fetchData(`${_v.API_URL_2}/${_v.SYSTEM_ALL_TABLE_LIST}/`),
-  getTestData           : (id: number, parent: string)=>fetchData(`${_v.API_URL_2}/${_v.API_TEST}/${id}/${parent}/`)
+  getTestData           : (id: number, parent: string)=>fetchData(`${_v.API_URL_2}/${_v.API_TEST}/${id}/${parent}/`),
   // getTestData           : (id: number, parent: string)=>fetchData(`${_v.API_URL_2}/${`app_settings/table/field-list`}/${id}/${parent}/`)
+
+  dropDownColorChangeBuySell: (id: string | number, data: { table_color: string }) =>  patchData(`${_v.API_URL_2}/${_v.USER_TABLE_COLOR_UPDATE}/${id}`, null, data)
 }
 
 export const {
@@ -188,5 +193,6 @@ export const {
   userTableColumns,
   userTableColumnsUpdate,
   systemAllTableLists,
-  getTestData
+  getTestData,
+  dropDownColorChangeBuySell
 } = _default

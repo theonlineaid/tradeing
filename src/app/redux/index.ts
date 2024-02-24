@@ -24,6 +24,7 @@ import tradeListColumnShow from './slices/tradeListColumnShow'
 import userData from './slices/userData'
 import watchList from './slices/watchList'
 import cacheStorage from './storage/cach'
+import dropDownColorReducer from './slices/dropDownColorSlice'
 
 const marketDataConf = {
   key: 'root',
@@ -67,6 +68,7 @@ const rootReducer = combineReducers({
   headerData,
   error,
   [itchAPI.reducerPath]: itchAPI.reducer,
+  dropDownColor: dropDownColorReducer
 })
 
 // Export Store

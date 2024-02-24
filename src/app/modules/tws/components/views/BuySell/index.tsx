@@ -65,7 +65,6 @@ const BuySell = (props: any) => {
     localStorage.setItem('instrument-details-table', nextChecked)
   }
 
-  console.log("64 ", props.data)
 
   return (
     <>

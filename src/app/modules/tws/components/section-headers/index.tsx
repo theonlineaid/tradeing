@@ -23,6 +23,8 @@ import SvgIcon from './../../../../common/components/svg-icons/index'
 import MinMaxSection from './MinMaxSection'
 import ClientSelect from './clientSelect'
 import InstrumentSelect from './instrumentSelect'
+import { dropDownColorChangeBuySell } from '../../../auth/core/_requests'
+import { updateTableColor } from '#store/slices/dropDownColorSlice'
 
 interface Props {
   layout: any
@@ -95,32 +97,35 @@ const SectionHeader: React.FC<React.PropsWithChildren<Props>> = ({
   }
 
 
-
+  console.log(data[0]?.id, tableData);
+  // data.map(item => {
+  //   // Process each item in the array
+  //   console.log(item);
+  // });
 // ------------------------------------
-// Update table color by id 
-  const patchTableColorById = async (tableId, tableColor) => {
-    try {
-      const response = await fetch(`http://203.202.247.206:8007/api/app_settings/theme-table/update/color-font/${tableId}/`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ table_color: tableColor }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to update table color for table with ID ${tableId}`);
-      }
-
-      const updatedTable = await response.json();
-      return updatedTable;
-    } catch (error) {
-      // Handle error
-      console.error('Error updating table color:', error);
-      throw error;
+// Update table color with id wish
+const handleUpdateColor = async (color: string, tableId: number = data[0]?.id ) => {
+  try {
+    if (!tableId) {
+      console.error('Table ID is undefined or null');
+      return;
     }
-  };
+
+    const updateDropdownColor = await dropDownColorChangeBuySell(data[0]?.id,  {table_color: color});
+
+    if (updateDropdownColor.status === 200) {
+      dispatch(updateTableColor({ tableId, color }));
+    } else {
+      console.error('Failed to update color');
+    }
+  } catch (error) {
+    console.error('Error updating color', error);
+  }
+}
+
+
 // ------------------------------------
+
 
 
 
@@ -148,8 +153,8 @@ const SectionHeader: React.FC<React.PropsWithChildren<Props>> = ({
                   <li className='nav-item' key={tab.id}>
                     <a
                       className={`nav-link px-4 tw-text-blue-900 ${selectedTab === tab.id
-                          ? 'active tw-text-white dark:tw-text-slate-100 tw-bg-gradient-to-r tw-from-blue-400 tw-to-emerald-400 dark:tw-bg-gradient-to-r dark:tw-from-purple-900 dark:tw-to-purple-700'
-                          : 'dark:tw-text-slate-50 hover:tw-bg-gradient-to-r hover:tw-from-blue-400 hover:tw-to-emerald-400 dark:hover:tw-bg-gradient-to-r dark:hover:tw-from-purple-900 dark:hover:tw-to-purple-700'
+                        ? 'active tw-text-white dark:tw-text-slate-100 tw-bg-gradient-to-r tw-from-blue-400 tw-to-emerald-400 dark:tw-bg-gradient-to-r dark:tw-from-purple-900 dark:tw-to-purple-700'
+                        : 'dark:tw-text-slate-50 hover:tw-bg-gradient-to-r hover:tw-from-blue-400 hover:tw-to-emerald-400 dark:hover:tw-bg-gradient-to-r dark:hover:tw-from-purple-900 dark:hover:tw-to-purple-700'
                         }`}
                       style={{ cursor: 'pointer' }}
                       onClick={(e) => {
@@ -169,8 +174,8 @@ const SectionHeader: React.FC<React.PropsWithChildren<Props>> = ({
                     <li className='nav-item' key={i}>
                       <a
                         className={`nav-link px-4 tw-text-blue-900 ${false
-                            ? 'active tw-text-white dark:tw-text-slate-100 tw-bg-gradient-to-r tw-from-blue-400 tw-to-emerald-400 dark:tw-bg-gradient-to-r dark:tw-from-purple-900 dark:tw-to-purple-700'
-                            : 'dark:tw-text-slate-50 hover:tw-bg-gradient-to-r hover:tw-from-blue-400 hover:tw-to-emerald-400 dark:hover:tw-bg-gradient-to-r dark:hover:tw-from-purple-900 dark:hover:tw-to-purple-700'
+                          ? 'active tw-text-white dark:tw-text-slate-100 tw-bg-gradient-to-r tw-from-blue-400 tw-to-emerald-400 dark:tw-bg-gradient-to-r dark:tw-from-purple-900 dark:tw-to-purple-700'
+                          : 'dark:tw-text-slate-50 hover:tw-bg-gradient-to-r hover:tw-from-blue-400 hover:tw-to-emerald-400 dark:hover:tw-bg-gradient-to-r dark:hover:tw-from-purple-900 dark:hover:tw-to-purple-700'
                           }`}
                         style={{ cursor: 'pointer' }}
                       >
@@ -217,6 +222,25 @@ const SectionHeader: React.FC<React.PropsWithChildren<Props>> = ({
                   <Dropdown.Toggle
                     id='dropdown-basic'
                     className={`custom-btn ${layout?.i === 'trading_GROUP'
+                      ? linkedTable?.marketData
+                      : layout?.i === 'buy_sell'
+                        ? linkedTable?.marketDept
+                        : layout?.i === 'blotter_INDIVIDUAL'
+                          ? linkedTable?.blotter
+                          : layout?.i === 'performance_INDIVIDUAL'
+                            ? linkedTable?.moversGainers
+                            : layout?.i === 'position_INDIVIDUAL'
+                              ? linkedTable?.position
+                              : layout?.i === 'execution_INDIVIDUAL'
+                                ? linkedTable?.execution
+                                : layout?.i === 'orderSummery_INDIVIDUAL'
+                                  ? linkedTable?.orderSummary
+                                  : null
+                      }
+                  `}
+                  >
+                    <p
+                      className={`tw-w-5 ${layout?.i === 'trading_GROUP'
                         ? linkedTable?.marketData
                         : layout?.i === 'buy_sell'
                           ? linkedTable?.marketDept
@@ -224,32 +248,13 @@ const SectionHeader: React.FC<React.PropsWithChildren<Props>> = ({
                             ? linkedTable?.blotter
                             : layout?.i === 'performance_INDIVIDUAL'
                               ? linkedTable?.moversGainers
-                              : layout?.i === 'position_INDIVIDUAL'
-                                ? linkedTable?.position
-                                : layout?.i === 'execution_INDIVIDUAL'
-                                  ? linkedTable?.execution
+                              : layout?.i === 'execution_INDIVIDUAL'
+                                ? linkedTable?.execution
+                                : layout?.i === 'position_INDIVIDUAL'
+                                  ? linkedTable?.position
                                   : layout?.i === 'orderSummery_INDIVIDUAL'
                                     ? linkedTable?.orderSummary
                                     : null
-                      }
-                  `}
-                  >
-                    <p
-                      className={`tw-w-5 ${layout?.i === 'trading_GROUP'
-                          ? linkedTable?.marketData
-                          : layout?.i === 'buy_sell'
-                            ? linkedTable?.marketDept
-                            : layout?.i === 'blotter_INDIVIDUAL'
-                              ? linkedTable?.blotter
-                              : layout?.i === 'performance_INDIVIDUAL'
-                                ? linkedTable?.moversGainers
-                                : layout?.i === 'execution_INDIVIDUAL'
-                                  ? linkedTable?.execution
-                                  : layout?.i === 'position_INDIVIDUAL'
-                                    ? linkedTable?.position
-                                    : layout?.i === 'orderSummery_INDIVIDUAL'
-                                      ? linkedTable?.orderSummary
-                                      : null
                         }
                   `}
                     >
@@ -265,19 +270,19 @@ const SectionHeader: React.FC<React.PropsWithChildren<Props>> = ({
                       className='m-2 '
                       onClick={() =>
                         layout?.i === 'trading_GROUP'
-                          ? dispatch(changeMarketDataColor(''))
+                          ? handleUpdateColor('', data.id)
                           : layout?.i === 'buy_sell'
-                            ? dispatch(changeMarketDeptColor(''))
+                            ? handleUpdateColor('', data.id)
                             : layout?.i === 'blotter_INDIVIDUAL'
-                              ? dispatch(changeBlotterColor(''))
+                              ? handleUpdateColor('', data.id)
                               : layout?.i === 'performance_INDIVIDUAL'
-                                ? dispatch(changeMoversGainersColor(''))
+                                ? handleUpdateColor('', data.id)
                                 : layout?.i === 'execution_INDIVIDUAL'
-                                  ? dispatch(changeExecutionColor(''))
+                                  ? handleUpdateColor('', data.id)
                                   : layout?.i === 'position_INDIVIDUAL'
-                                    ? dispatch(changePositionColor(''))
+                                    ? handleUpdateColor('', data.id)
                                     : layout?.i === 'orderSummery_INDIVIDUAL'
-                                      ? dispatch(changeOrderSummaryColor(''))
+                                      ? handleUpdateColor('', data.id)
                                       : null
                       }
                     >
@@ -289,19 +294,19 @@ const SectionHeader: React.FC<React.PropsWithChildren<Props>> = ({
                       className='m-2 tw-bg-lime-400'
                       onClick={() =>
                         layout?.i === 'trading_GROUP'
-                          ? dispatch(changeMarketDataColor('tw-bg-lime-400'))
+                          ? handleUpdateColor('tw-bg-lime-400', data.id)
                           : layout?.i === 'blotter_INDIVIDUAL'
-                            ? dispatch(changeBlotterColor('tw-bg-lime-400'))
+                            ? handleUpdateColor('tw-bg-lime-400', data.id)
                             : layout?.i === 'buy_sell'
-                              ? dispatch(changeMarketDeptColor('tw-bg-lime-400'))
+                              ? handleUpdateColor('tw-bg-lime-400', data.id)
                               : layout?.i === 'performance_INDIVIDUAL'
-                                ? dispatch(changeMoversGainersColor('tw-bg-lime-400'))
+                                ? handleUpdateColor('tw-bg-lime-400', data.id)
                                 : layout?.i === 'execution_INDIVIDUAL'
-                                  ? dispatch(changeExecutionColor('tw-bg-lime-400'))
+                                  ? handleUpdateColor('tw-bg-lime-400', data.id)
                                   : layout?.i === 'position_INDIVIDUAL'
-                                    ? dispatch(changePositionColor('tw-bg-lime-400'))
+                                    ? handleUpdateColor('tw-bg-lime-400', data.id)
                                     : layout?.i === 'orderSummery_INDIVIDUAL'
-                                      ? dispatch(changeOrderSummaryColor('tw-bg-lime-400'))
+                                      ? handleUpdateColor('tw-bg-lime-400', data.id)
                                       : null
                       }
                     >
@@ -313,17 +318,17 @@ const SectionHeader: React.FC<React.PropsWithChildren<Props>> = ({
                       className='m-2 tw-bg-red-400'
                       onClick={() =>
                         layout?.i === 'trading_GROUP'
-                          ? dispatch(changeMarketDataColor('tw-bg-red-400'))
+                          ? handleUpdateColor('tw-bg-red-400')
                           : layout?.i === 'buy_sell'
-                            ? dispatch(changeMarketDeptColor('tw-bg-red-400'))
+                            ? handleUpdateColor('tw-bg-red-400')
                             : layout?.i === 'blotter_INDIVIDUAL'
-                              ? dispatch(changeBlotterColor('tw-bg-red-400'))
+                              ? handleUpdateColor('tw-bg-red-400')
                               : layout?.i === 'performance_INDIVIDUAL'
-                                ? dispatch(changeMoversGainersColor('tw-bg-red-400'))
+                                ? handleUpdateColor('tw-bg-red-400')
                                 : layout?.i === 'execution_INDIVIDUAL'
-                                  ? dispatch(changeExecutionColor('tw-bg-red-400'))
+                                  ? handleUpdateColor('tw-bg-red-400')
                                   : layout?.i === 'position_INDIVIDUAL'
-                                    ? dispatch(changePositionColor('tw-bg-red-400'))
+                                    ? handleUpdateColor('tw-bg-red-400')
                                     : layout?.i === 'orderSummery_INDIVIDUAL'
                                       ? dispatch(changeOrderSummaryColor('tw-bg-red-400'))
                                       : null
@@ -337,19 +342,19 @@ const SectionHeader: React.FC<React.PropsWithChildren<Props>> = ({
                       className='m-2 tw-bg-green-400'
                       onClick={() =>
                         layout?.i === 'trading_GROUP'
-                          ? dispatch(changeMarketDataColor('tw-bg-green-400'))
+                          ? handleUpdateColor('tw-bg-green-400')
                           : layout?.i === 'buy_sell'
-                            ? dispatch(changeMarketDeptColor('tw-bg-green-400'))
+                            ? handleUpdateColor('tw-bg-green-400')
                             : layout?.i === 'blotter_INDIVIDUAL'
-                              ? dispatch(changeBlotterColor('tw-bg-green-400'))
+                              ? handleUpdateColor('tw-bg-green-400')
                               : layout?.i === 'performance_INDIVIDUAL'
-                                ? dispatch(changeMoversGainersColor('tw-bg-green-400'))
+                                ? handleUpdateColor('tw-bg-green-400')
                                 : layout?.i === 'execution_INDIVIDUAL'
-                                  ? dispatch(changeExecutionColor('tw-bg-green-400'))
+                                  ? handleUpdateColor('tw-bg-green-400')
                                   : layout?.i === 'position_INDIVIDUAL'
-                                    ? dispatch(changePositionColor('tw-bg-green-400'))
+                                    ? handleUpdateColor('tw-bg-green-400')
                                     : layout?.i === 'orderSummery_INDIVIDUAL'
-                                      ? dispatch(changeOrderSummaryColor('tw-bg-green-400'))
+                                      ? handleUpdateColor('tw-bg-green-400')
                                       : null
                       }
                     >
@@ -361,19 +366,19 @@ const SectionHeader: React.FC<React.PropsWithChildren<Props>> = ({
                       className='m-2 tw-bg-gray-400'
                       onClick={() =>
                         layout?.i === 'trading_GROUP'
-                          ? dispatch(changeMarketDataColor('tw-bg-gray-400'))
+                          ? handleUpdateColor('tw-bg-gray-400')
                           : layout?.i === 'buy_sell'
-                            ? dispatch(changeMarketDeptColor('tw-bg-gray-400'))
+                            ? handleUpdateColor('tw-bg-gray-400')
                             : layout?.i === 'blotter_INDIVIDUAL'
-                              ? dispatch(changeBlotterColor('tw-bg-gray-400'))
+                              ? handleUpdateColor('tw-bg-gray-400')
                               : layout?.i === 'performance_INDIVIDUAL'
-                                ? dispatch(changeMoversGainersColor('tw-bg-gray-400'))
+                                ? handleUpdateColor('tw-bg-gray-400')
                                 : layout?.i === 'execution_INDIVIDUAL'
-                                  ? dispatch(changeExecutionColor('tw-bg-gray-400'))
+                                  ? handleUpdateColor('tw-bg-gray-400')
                                   : layout?.i === 'position_INDIVIDUAL'
-                                    ? dispatch(changePositionColor('tw-bg-gray-400'))
+                                    ? handleUpdateColor('tw-bg-gray-400')
                                     : layout?.i === 'orderSummery_INDIVIDUAL'
-                                      ? dispatch(changeOrderSummaryColor('tw-bg-gray-400'))
+                                      ? handleUpdateColor('tw-bg-gray-400')
                                       : null
                       }
                     >
@@ -385,19 +390,19 @@ const SectionHeader: React.FC<React.PropsWithChildren<Props>> = ({
                       className='m-2 tw-bg-orange'
                       onClick={() =>
                         layout?.i === 'trading_GROUP'
-                          ? dispatch(changeMarketDataColor('tw-bg-orange'))
+                          ? handleUpdateColor('tw-bg-orange')
                           : layout?.i === 'buy_sell'
-                            ? dispatch(changeMarketDeptColor('tw-bg-orange'))
+                            ?handleUpdateColor('tw-bg-orange')
                             : layout?.i === 'blotter_INDIVIDUAL'
-                              ? dispatch(changeBlotterColor('tw-bg-orange'))
+                              ? handleUpdateColor('tw-bg-orange')
                               : layout?.i === 'performance_INDIVIDUAL'
-                                ? dispatch(changeMoversGainersColor('tw-bg-orange'))
+                                ? handleUpdateColor('tw-bg-orange')
                                 : layout?.i === 'execution_INDIVIDUAL'
-                                  ? dispatch(changeExecutionColor('tw-bg-orange'))
+                                  ? handleUpdateColor('tw-bg-orange')
                                   : layout?.i === 'position_INDIVIDUAL'
-                                    ? dispatch(changePositionColor('tw-bg-orange'))
+                                    ? handleUpdateColor('tw-bg-orange')
                                     : layout?.i === 'orderSummery_INDIVIDUAL'
-                                      ? dispatch(changeOrderSummaryColor('tw-bg-orange'))
+                                      ? handleUpdateColor('tw-bg-orange')
                                       : null
                       }
                     >
